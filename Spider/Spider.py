@@ -46,6 +46,7 @@ class Crawler(object):
             return par.netloc
 
         # 保存图片
+
     def save_image(self, rsp_data, word):
         if not os.path.exists("../Dataset/Raw_images_Folder/" + word):
             os.mkdir("../Dataset/Raw_images_Folder/" + word)
@@ -65,7 +66,9 @@ class Crawler(object):
                 ]
                 urllib.request.install_opener(opener)
                 # 保存图片
-                urllib.request.urlretrieve(image_info['objURL'], '../Dataset/Raw_images_Folder/' + word + '/' + str(self.__counter) + str(suffix))
+                urllib.request.urlretrieve(image_info['objURL'],
+                                           '../Dataset/Raw_images_Folder/' + word + '/' + str(self.__counter) + str(
+                                               suffix))
             except urllib.error.HTTPError as urllib_err:
                 print(urllib_err)
                 continue
@@ -80,7 +83,7 @@ class Crawler(object):
         return
 
     # 开始获取
-    def get_images(self, word='美女'):
+    def get_images(self, word='哈士奇'):
         search = urllib.parse.quote(word)
         # pn int 图片数
         pn = self.__start_amount

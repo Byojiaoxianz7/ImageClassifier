@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 from Spider.Spider import Crawler
 
+
 class ProcessingData(object):
     """
     定义一个处理数据的类
@@ -81,25 +82,24 @@ class ProcessingData(object):
         return np.array(images_open)
 
     def moveImagesToTestFolder(self):
-            pathDir = os.listdir(self.train_folder)  # 取图片的原始路径
-            filenumber = len(pathDir)
-            rate = 0.2  # 自定义抽取图片的比例，比方说100张抽20张，那就是0.2
-            picknumber = int(filenumber * rate)  # 按照rate比例从文件夹中取一定数量图片
-            sample = random.sample(pathDir, picknumber)  # 随机选取picknumber数量的样本图片
-            for name in sample:
-                shutil.move(self.train_folder + name, self.test_folder + name)
-            return
+        pathDir = os.listdir(self.train_folder)  # 取图片的原始路径
+        filenumber = len(pathDir)
+        rate = 0.2  # 自定义抽取图片的比例，比方说100张抽20张，那就是0.2
+        picknumber = int(filenumber * rate)  # 按照rate比例从文件夹中取一定数量图片
+        sample = random.sample(pathDir, picknumber)  # 随机选取picknumber数量的样本图片
+        for name in sample:
+            shutil.move(self.train_folder + name, self.test_folder + name)
+        return
 
     def initialize(self):
 
         crawler = Crawler(0.05)
-        type_num = int(input('分几个种类: '))
-        for i in range(type_num):
-            global keyword
-            keyword = input('第{}个关键字: '.format(i+1))
-        page_num = int(input('下载几页: '))
-        for j in range(type_num):
+        classes_num = int(input('Number of classes: '))
+        for eve_keyword in range(classes_num):
+            keyword = input('Keyword {}: '.format(eve_keyword + 1))
+            page_num = int(input('Page Number: '))
             crawler.start(word=keyword, spider_page_num=page_num)
+
 
         self.renameImages(filePath=self.raw_images_folder, Type=self.type)
         self.resizeImages(filePath=self.raw_images_folder, Type=self.type, dstPath=self.train_folder)
