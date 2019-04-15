@@ -1,8 +1,9 @@
 import os
-from PIL import Image
-import numpy as np
 import random
 import shutil
+import numpy as np
+from PIL import Image
+from Spider.Spider import Crawler
 
 class ProcessingData(object):
     """
@@ -21,7 +22,6 @@ class ProcessingData(object):
         self.test_folder = Test_Folder
         self.type = Type
 
-        # 创建文件夹
         if not os.path.exists(self.raw_images_folder):
             os.mkdir(self.raw_images_folder)
         if not os.path.exists(self.train_folder):
@@ -91,6 +91,16 @@ class ProcessingData(object):
             return
 
     def initialize(self):
+
+        crawler = Crawler(0.05)
+        type_num = int(input('分几个种类: '))
+        for i in range(type_num):
+            global keyword
+            keyword = input('第{}个关键字: '.format(i+1))
+        page_num = int(input('下载几页: '))
+        for j in range(type_num):
+            crawler.start(word=keyword, spider_page_num=page_num)
+
         self.renameImages(filePath=self.raw_images_folder, Type=self.type)
         self.resizeImages(filePath=self.raw_images_folder, Type=self.type, dstPath=self.train_folder)
         self.moveImagesToTestFolder()
