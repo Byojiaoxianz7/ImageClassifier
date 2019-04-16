@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cat identification</title>
+</head>
+<body>
+    <h2>
+    识别结果：
+        {% if classes == '0' %}孟买猫
+        {% elif classes == '1' %}布偶猫
+        {% elif classes == '2' %}暹罗猫
+        {% elif classes == '3' %}英国短毛猫
+        {% endif %}
+    </h2>
+    <br>
+    <a href="#" onClick="javascript:history.go(-1);">重新上传</a>
+
+</body>
+</html>
