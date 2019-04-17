@@ -1,8 +1,12 @@
 import os
+import sys
 import random
 import shutil
 import numpy as np
 from PIL import Image
+
+o_path = os.getcwd()
+sys.path.append(o_path)
 from Spider.Spider import Crawler
 
 
@@ -22,13 +26,6 @@ class ProcessingData(object):
         self.train_folder = Train_Folder
         self.test_folder = Test_Folder
         self.type = Type
-
-        if not os.path.exists(self.raw_images_folder):
-            os.mkdir(self.raw_images_folder)
-        if not os.path.exists(self.train_folder):
-            os.mkdir(self.train_folder)
-        if not os.path.exists(self.test_folder):
-            os.mkdir(self.test_folder)
 
     def renameImages(self, filePath, Type):
         """
@@ -64,7 +61,11 @@ class ProcessingData(object):
         """
         for eve_type_folder in Type:
             for eve_type_image in os.listdir(filePath + eve_type_folder):
-                image_open = Image.open(fp=filePath + eve_type_folder + '/' + eve_type_image)
+                try:
+                    image_open = Image.open(fp=filePath + eve_type_folder + '/' + eve_type_image)
+                except (OSError, NameError) as e:
+                    print(e)
+
                 try:
                     new_image = image_open.resize((Width, Height), Image.BILINEAR)
                     new_image.save(os.path.join(dstPath, os.path.basename(eve_type_image)))
@@ -92,14 +93,6 @@ class ProcessingData(object):
         return
 
     def initialize(self):
-
-        crawler = Crawler(0.05)
-        classes_num = int(input('Number of classes: '))
-        for eve_keyword in range(classes_num):
-            keyword = input('Keyword {}: '.format(eve_keyword + 1))
-            page_num = int(input('Page Number: '))
-            crawler.start(word=keyword, spider_page_num=page_num)
-
 
         self.renameImages(filePath=self.raw_images_folder, Type=self.type)
         self.resizeImages(filePath=self.raw_images_folder, Type=self.type, dstPath=self.train_folder)

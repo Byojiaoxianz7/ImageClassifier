@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
 import os
@@ -15,7 +16,7 @@ timeout = 5
 socket.setdefaulttimeout(timeout)
 
 
-class Crawler(object):
+class Crawler:
     # 睡眠时长
     __time_sleep = 0.1
     __amount = 0
@@ -45,12 +46,11 @@ class Crawler(object):
             return par.netloc
 
         # 保存图片
-
     def save_image(self, rsp_data, word):
-        if not os.path.exists("../Dataset/Raw_images_Folder/" + word):
-            os.mkdir("../Dataset/Raw_images_Folder/" + word)
+        if not os.path.exists("../ImageClassifier/Dataset/Raw_Images_Folder/" + word):
+            os.mkdir("../ImageClassifier/Dataset/Raw_Images_Folder/" + word)
         # 判断名字是否重复，获取图片长度
-        self.__counter = len(os.listdir('../Dataset/Raw_images_Folder/' + word)) + 1
+        self.__counter = len(os.listdir('../ImageClassifier/Dataset/Raw_Images_Folder/' + word)) + 1
         for image_info in rsp_data['imgs']:
 
             try:
@@ -65,9 +65,7 @@ class Crawler(object):
                 ]
                 urllib.request.install_opener(opener)
                 # 保存图片
-                urllib.request.urlretrieve(image_info['objURL'],
-                                           '../Dataset/Raw_images_Folder/' + word + '/' + str(self.__counter) + str(
-                                               suffix))
+                urllib.request.urlretrieve(image_info['objURL'], '../ImageClassifier/Dataset/Raw_Images_Folder/' + word + '/' + str(self.__counter) + str(suffix))
             except urllib.error.HTTPError as urllib_err:
                 print(urllib_err)
                 continue
@@ -82,7 +80,7 @@ class Crawler(object):
         return
 
     # 开始获取
-    def get_images(self, word='哈士奇'):
+    def get_images(self, word='美女'):
         search = urllib.parse.quote(word)
         # pn int 图片数
         pn = self.__start_amount

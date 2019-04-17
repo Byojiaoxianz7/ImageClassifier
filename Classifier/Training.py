@@ -2,14 +2,18 @@
 
 
 import os
+import sys
 import numpy as np
+from PIL import Image
 from keras.utils import np_utils
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Flatten
 from keras.optimizers import SGD
 from keras.layers import Conv2D, MaxPooling2D
-from Classifier.ProcessingData import ProcessingData
 
+o_path = os.getcwd()
+sys.path.append(o_path)
+from Classifier.ProcessingData import ProcessingData
 
 class Training(object):
 
@@ -18,6 +22,20 @@ class Training(object):
         self.test_folder = Test_Folder
         self.batch_size = Batch_Size
         self.epochs = Epochs
+
+    def readImages(self, fileName, folder):
+        """
+        定义一个将图片转换为numpy的array类型的方法
+        :param fileName:
+        :param folder:
+        :return:  numpy array
+        """
+        try:
+            images_open = Image.open(folder + fileName)
+            return np.array(images_open)
+        except (OSError, NameError) as e:
+            print(e)
+
 
     def train(self):
         train_img_list = []  # x_train
@@ -28,7 +46,7 @@ class Training(object):
 
         # 将训练集图片转换成数组
         for file_1 in os.listdir(self.train_folder):
-            file_img_to_array = ProcessingData.readImages(fileName=file_1, folder=self.train_folder)
+            file_img_to_array = self.readImages(fileName=file_1, folder=self.train_folder)
             train_img_list.append(file_img_to_array)
             train_label_list.append(int(file_1.split('_')[0]))
 
@@ -37,7 +55,7 @@ class Training(object):
 
         # 将测试集图片转换成数组
         for file_2 in os.listdir(self.test_folder):
-            file_img_to_array = ProcessingData.readImages(fileName=file_2, folder=self.test_folder)
+            file_img_to_array = self.readImages(fileName=file_2, folder=self.test_folder)
             test_img_list.append(file_img_to_array)
             test_lebal_list.append(int(file_2.split('_')[0]))
 
@@ -82,4 +100,6 @@ class Training(object):
         )
         model.save_weights('weights.h5', overwrite=True)
         score = model.evaluate(x_test, y_test, batch_size=10)
+
+        x_train.shape()
         print(score)
