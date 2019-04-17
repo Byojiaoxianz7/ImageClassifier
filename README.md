@@ -82,6 +82,9 @@ App/weights.h5 这个文件是之前我训练好的四种猫的种类模型，�
 ​	3， 还没想到，但肯定有
 
 上边的BUG改了，但又出现了BUG
->ValueError: setting an array element with a sequence.
+>   File "C:\Users\哦豁\Desktop\ImageClassifier\Classifier\Training.py", line 70, in train
+    x_train = train_img_list.astype('float32')
+ValueError: setting an array element with a sequence.
+
 
 先睡觉，下午网吧打LOL，先回来有时间再弄，烦死了!!!
