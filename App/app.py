@@ -10,6 +10,7 @@ from keras.layers.core import Dense, Dropout, Flatten
 from keras.optimizers import SGD
 from keras.layers import Conv2D, MaxPooling2D
 
+
 # 设置允许的文件格式
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'PNG', 'bmp', 'jpeg', 'JPEG'])
 app = Flask(__name__)
