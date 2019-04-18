@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
 import os
@@ -9,14 +8,13 @@ import socket
 import urllib.request
 import urllib.parse
 import urllib.error
-# 设置超时
 import time
 
 timeout = 5
 socket.setdefaulttimeout(timeout)
 
 
-class Crawler:
+class Crawler(object):
     # 睡眠时长
     __time_sleep = 0.1
     __amount = 0

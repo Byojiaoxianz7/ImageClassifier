@@ -1,5 +1,4 @@
-# coding:utf-8
-
+# -*- coding:utf-8 -*-
 
 import os
 import sys
@@ -19,21 +18,18 @@ def main():
     batch_size = 10
     epochs = 100
 
-    if not os.path.exists(raw_images_folder):
-        os.mkdir(raw_images_folder)
-    if not os.path.exists(train_images_folder):
-        os.mkdir(train_images_folder)
-    if not os.path.exists(test_images_folder):
-        os.mkdir(test_images_folder)
 
-    # crawler = Crawler(0.05)
+    crawler = Crawler(0.05)
     # classes_num = int(input('Number of classes: '))
 
     # for eve_keyword in range(classes_num):
     # keyword = input('Keyword {}: '.format(eve_keyword + 1))
     # page_num = int(input('Page Number: '))
 
-    # crawler.start('哈士奇', 2, 1)  # 抓取关键词为 “美女”，总数为 2 页（即总共 2*60=120 张），起始抓取的页码为 1
+    # crawler.start("孟买猫", 1, 1)
+    # crawler.start("布偶猫", 1, 1)
+    # crawler.start("暹罗猫", 1, 1)
+    # crawler.start("英国短毛猫", 1, 1)
 
 
     # catType = ['孟买猫', '布偶猫', '暹罗猫', '英国短毛猫']
@@ -50,15 +46,16 @@ def main():
         Type=type,
     )
 
+    # processing data
+    processing_data.initialize()
+
+
     training = Training(
         Train_Folder=train_images_folder,
         Test_Folder=test_images_folder,
         Batch_Size=batch_size,
         Epochs=epochs,
     )
-
-    # processing data
-    processing_data.initialize()
 
     # trianing
     training.train()
